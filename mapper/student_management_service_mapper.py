@@ -3,6 +3,7 @@ from models.role import Role
 from models.user import User
 from schemas.requests.create_new_course_request import CreateNewCourseRequest
 from schemas.requests.create_user_request import CreateUserRequest
+from schemas.responses.create_new_course_response import CreateNewCourseResponse
 from schemas.responses.create_user_response import CreateUserResponse
 
 
@@ -39,11 +40,20 @@ class StudentManagementServiceMapper:
     @staticmethod
     def map_create_new_course_request_to_course(create_new_course_request: CreateNewCourseRequest) -> Course:
         return Course(
-
+            user_id=create_new_course_request.user_id,
+            title=create_new_course_request.title,
+            description=create_new_course_request.description,
         )
 
 
 
-            # user_id: str
-            # title: str
-            # description: str
+    @staticmethod
+    def map_course_to_create_new_course_response(course: Course) -> CreateNewCourseResponse:
+        return CreateNewCourseResponse(
+            course_id=course.id,
+            message="Course created successfully",
+            title=course.title,
+            description=course.description,
+            user_id=course.user_id,
+
+        )

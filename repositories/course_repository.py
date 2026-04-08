@@ -10,13 +10,14 @@ course_collections = db["courses"]
 class UserRepository:
 
     def save(self, course: Course):
-        database = course.dict(by_alias=True)
+        database = course.model_dump(by_alias=True)
         if database.get("_id"):
             course_collections.update_one({"_id": ObjectId(database["_id"])}, {"$set": database})
             return database
 
         value = course_collections.insert_one(database)
         return str(value.inserted_id)
+
 
 
     def find_by_id(self, course_id: str):

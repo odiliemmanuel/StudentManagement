@@ -6,3 +6,4 @@ class CreateNewCourseResponse(BaseModel):
     message: str
     title: str
     description: str
+    user_id: str
