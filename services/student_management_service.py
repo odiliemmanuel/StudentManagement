@@ -1,4 +1,7 @@
 from mapper.student_management_service_mapper import StudentManagementServiceMapper
+from models.role import Role
+from models.user import User
+from schemas.requests.create_new_course_request import CreateNewCourseRequest
 from schemas.requests.create_user_request import CreateUserRequest
 from schemas.responses.create_user_response import CreateUserResponse
 
@@ -20,5 +23,8 @@ class StudentManagementService:
 
 
 
-    def create_new_course(self,):
-        pass
+    def create_new_course(self, create_new_course_request: CreateNewCourseRequest):
+        user : User = self.repository.find_by_id(create_new_course_request.user_id)
+        if user.role == Role.FACILITATOR:
+
+
