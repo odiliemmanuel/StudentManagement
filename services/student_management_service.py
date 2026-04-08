@@ -1,10 +1,12 @@
-from exceptions.CourseRoleMismatchException import CourseRoleMismatchException
+from exceptions.courseRoleMismatchException import CourseRoleMismatchException
 from exceptions.messages import Messages
 from mapper.student_management_service_mapper import StudentManagementServiceMapper
+from models.course import Course
 from models.role import Role
 from models.user import User
 from schemas.requests.create_new_course_request import CreateNewCourseRequest
 from schemas.requests.create_user_request import CreateUserRequest
+from schemas.requests.enroll_student_in_course_request import EnrollStudentInCourseRequest
 from schemas.responses.create_user_response import CreateUserResponse
 
 
@@ -13,7 +15,6 @@ class StudentManagementService:
     def __init__(self, user_repository, course_repository):
         self.user_repository = user_repository
         self.course_repository = course_repository
-
 
 
 
@@ -40,3 +41,25 @@ class StudentManagementService:
 
         else:
             raise CourseRoleMismatchException(Messages.COURSE_ROLE_MISMATCH_EXCEPTION)
+
+
+
+    def view_all_courses(self):
+        return self.course_repository.find_all()
+
+
+    def view_facilitator_for_course(self,):
+        pass
+
+
+    def enroll_student_in_course(self, enroll_student_in_course_request: EnrollStudentInCourseRequest):
+        course: Course = self.course_repository.find_by_id(enroll_student_in_course_request.course_id)
+        user: User = self.user_repository.find_by_id(enroll_student_in_course_request.user_id)
+        if user.role == Role.STUDENT or user.id == enroll_student_in_course_request.student_id:
+            if course.id == enroll_student_in_course_request.course_id:
+                user.courses.append(course)
+                self.user_repository.save(user)
+                return StudentManagementServiceMapper.map_user_to_enroll_student_in_course_response(user)
+            else:
+                raise I
+

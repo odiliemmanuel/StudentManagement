@@ -3,8 +3,10 @@ from models.role import Role
 from models.user import User
 from schemas.requests.create_new_course_request import CreateNewCourseRequest
 from schemas.requests.create_user_request import CreateUserRequest
+from schemas.requests.enroll_student_in_course_request import EnrollStudentInCourseRequest
 from schemas.responses.create_new_course_response import CreateNewCourseResponse
 from schemas.responses.create_user_response import CreateUserResponse
+from schemas.responses.enroll_student_in_course_response import EnrollStudentInCourseResponse
 
 
 class StudentManagementServiceMapper:
@@ -57,3 +59,18 @@ class StudentManagementServiceMapper:
             user_id=course.user_id,
 
         )
+
+
+
+    @staticmethod
+    def map_user_to_enroll_student_in_course_response(user : User) -> EnrollStudentInCourseResponse:
+        return EnrollStudentInCourseResponse(
+            student_id=user.id,
+            course_id=[course.id for course in user.courses if course.id == user.course_id],
+            facilitator_id=[course.user_id for course in user.courses],
+            message="Course added successfully",
+            title=[course.title for course in user.courses],
+            description=[course.description for course in user.courses],
+
+        )
+

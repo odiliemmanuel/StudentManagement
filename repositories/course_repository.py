@@ -26,3 +26,11 @@ class UserRepository:
             database["_id"] = str(database["_id"])
             return Course(**database)
         return None
+
+    def find_all(self):
+        database = course_collections.find()
+        if database:
+            for course in database:
+                course["_id"] = str(course["_id"])
+                return Course(**course)
+        return None
