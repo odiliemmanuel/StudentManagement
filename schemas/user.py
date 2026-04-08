@@ -1,6 +1,14 @@
-from pydantic import BaseModel
+from typing import Optional
+
+from pydantic import BaseModel, Field
+
+from schemas.role import Role
 
 
 class User(BaseModel):
-    username: str
-    email: str
+    id: Optional[str] = Field(default=None, alias="_id")
+    name: str
+    email_address: str
+    age: int
+    gender: str
+    role: Role
