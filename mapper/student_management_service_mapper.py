@@ -1,3 +1,4 @@
+from models.course import Course
 from models.role import Role
 from models.user import User
 from schemas.requests.create_new_course_request import CreateNewCourseRequest
@@ -37,7 +38,9 @@ class StudentManagementServiceMapper:
 
     @staticmethod
     def map_create_new_course_request_to_course(create_new_course_request: CreateNewCourseRequest) -> Course:
+        return Course(
 
+        )
 
 
 
