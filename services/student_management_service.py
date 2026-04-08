@@ -13,7 +13,6 @@ class StudentManagementService:
     def create_user(self, create_user_request: CreateUserRequest) -> CreateUserResponse:
 
         user = StudentManagementServiceMapper.map_request_to_user(create_user_request)
-
         inserted_id = self.repository.save(user)
         user.id = inserted_id
 
