@@ -1,4 +1,6 @@
 from exceptions.courseRoleMismatchException import CourseRoleMismatchException
+from exceptions.invalid_course_id_exception import InvalidCourseIdException
+from exceptions.invalid_student_id_exception import InvalidStudentIdException
 from exceptions.messages import Messages
 from mapper.student_management_service_mapper import StudentManagementServiceMapper
 from models.course import Course
@@ -55,11 +57,14 @@ class StudentManagementService:
     def enroll_student_in_course(self, enroll_student_in_course_request: EnrollStudentInCourseRequest):
         course: Course = self.course_repository.find_by_id(enroll_student_in_course_request.course_id)
         user: User = self.user_repository.find_by_id(enroll_student_in_course_request.user_id)
+
         if user.role == Role.STUDENT or user.id == enroll_student_in_course_request.student_id:
             if course.id == enroll_student_in_course_request.course_id:
                 user.courses.append(course)
                 self.user_repository.save(user)
                 return StudentManagementServiceMapper.map_user_to_enroll_student_in_course_response(user)
             else:
-                raise I
+                raise InvalidCourseIdException(Messages.INVALID_COURSE_ID_EXCEPTION)
 
+        else:
+            raise InvalidStudentIdException(Messages.INVALID_STUDENT_ID_EXCEPTION)
