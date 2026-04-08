@@ -1,13 +1,16 @@
+from xml.etree.ElementInclude import include
+
+from routes import  student_management_controller
+
 from fastapi import FastAPI
 
-app = FastAPI()
+app = FastAPI(
+    title="Student API",
+    description="A restful API to handle student creation,assignment,etc.",
+    version="1.0",
+)
+
+app.include_router(student_management_controller.router)
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
 
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
