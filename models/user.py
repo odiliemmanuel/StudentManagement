@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
-from schemas.role import Role
+from models.role import Role
 
 
 class User(BaseModel):
