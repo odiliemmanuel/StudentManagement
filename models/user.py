@@ -2,6 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel, Field
 
+from models.course import Course
 from models.role import Role
 
 
@@ -12,3 +13,4 @@ class User(BaseModel):
     age: int
     gender: str
     role: Role
+    courses: list[Course]

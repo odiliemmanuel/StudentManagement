@@ -9,7 +9,7 @@ user_collections = db["students"]
 
 class UserRepository:
 
-    def save_student(self, user: User):
+    def save(self, user: User):
         data = user.dict(by_alias=True)
         if data.get("_id"):
             user_collections.update_one({"_id": ObjectId(data["_id"])}, {"$set": data})
