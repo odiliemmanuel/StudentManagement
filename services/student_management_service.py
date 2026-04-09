@@ -1,9 +1,13 @@
 from fastapi import HTTPException
 
+from exceptions.courseRoleMismatchException import CourseRoleMismatchException
 from exceptions.email_already_exist_exception import EmailAlreadyExistsException
 from exceptions.messages import Messages
 from mapper.student_management_service_mapper import StudentManagementServiceMapper
+from models.course import Course
+from models.role import Role
 from models.user import User
+from repositories.course_repository import CourseRepository
 from repositories.student_repository import StudentRepository
 from schemas.requests.create_new_course_request import CreateNewCourseRequest
 from schemas.requests.create_user_request import CreateUserRequest
@@ -15,6 +19,7 @@ class StudentManagementService:
 
     def __init__(self):
         self.student_repository: StudentRepository = StudentRepository()
+        self.course_repository: CourseRepository = CourseRepository()
 
 
 
@@ -30,8 +35,18 @@ class StudentManagementService:
 
 
 
-    def create_new_course(self, request : CreateNewCourseRequest) -> CreateNewCourseResponse:
-        user ; User = self.find_b
+    def create_new_course(self, request: CreateNewCourseRequest) -> CreateNewCourseResponse:
+        user: User = self.student_repository.find_by_id(request.facilitator_id)
+
+        if user.role != Role.FACILITATOR:
+            raise HTTPException(status_code=403, detail="User is not a facilitator")
+
+        course: Course = StudentManagementServiceMapper.map_create_new_course_request_to_course(request)
+        course = self.course_repository.save(course)
+
+        return StudentManagementServiceMapper.map_course_to_create_new_course_response(course)
+
+
 
 
 

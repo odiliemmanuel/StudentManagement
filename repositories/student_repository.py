@@ -2,6 +2,7 @@ from bson import ObjectId
 from pydantic import EmailStr
 from pymongo import MongoClient
 
+from models.role import Role
 from models.user import User
 
 client = MongoClient("mongodb://localhost:27017")
@@ -14,6 +15,7 @@ class StudentRepository:
 
         def save(self, user: User):
             data = user.model_dump(by_alias=True)
+            print("Saving")
 
             if not data.get("_id"):
                 data.pop("_id", None)
@@ -38,13 +40,12 @@ class StudentRepository:
 
             return None
 
-
-
         def find_by_id(self, user_id: str):
             data = student_collections.find_one({"_id": ObjectId(user_id)})
 
             if data:
                 data["_id"] = str(data["_id"])
+                data["role"] = Role(data["role"])  # ✅ CRITICAL FIX
                 return User(**data)
 
             return None

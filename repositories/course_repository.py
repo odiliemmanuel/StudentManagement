@@ -2,10 +2,12 @@ from bson import ObjectId
 from pymongo import MongoClient
 
 from models.course import Course
+from models.role import Role
 
 client = MongoClient("mongodb://localhost:27017")
 db = client["courses"]
 course_collections = db["courses"]
+
 
 class CourseRepository:
 
@@ -15,7 +17,7 @@ class CourseRepository:
         if not data.get("_id"):
             data.pop("_id", None)
             result = course_collections.insert_one(data)
-            course.id = str(result.inserted_id)
+            course.course_id = str(result.inserted_id)
             return course
 
         course_collections.update_one(
@@ -25,6 +27,15 @@ class CourseRepository:
         return course
 
 
+    def find_by_id(self, user_id: str):
+        data = course_collections.find_one({"_id": ObjectId(user_id)})
+
+        if data:
+            data["_id"] = str(data["_id"])
+            data["role"] = Role(data["role"])  # ✅ CRITICAL FIX
+            return Course(**data)
+
+        return None
 
 
 
@@ -39,6 +50,7 @@ class CourseRepository:
             return Course(**data)
 
         return None
+
 
     def find_all(self):
         users = []
