@@ -3,9 +3,12 @@ from pymongo.errors import DuplicateKeyError
 
 from exceptions.courseRoleMismatchException import CourseRoleMismatchException
 from exceptions.email_already_exist_exception import EmailAlreadyExistsException
+from exceptions.invalid_course_id_exception import InvalidCourseIdException
 from exceptions.messages import Messages
 from schemas.requests.create_new_course_request import CreateNewCourseRequest
 from schemas.requests.create_user_request import CreateUserRequest
+from schemas.requests.enroll_student_in_course_request import EnrollStudentInCourseRequest
+from schemas.requests.enroll_student_in_course_response import EnrollStudentInCourseResponse
 from schemas.responses.create_new_course_response import CreateNewCourseResponse
 from schemas.responses.create_user_response import CreateUserResponse
 from services.student_management_service import StudentManagementService
@@ -18,9 +21,9 @@ services = StudentManagementService()
 
 
 @router.post("/create-user", response_model=CreateUserResponse)
-def create_user(user: CreateUserRequest) -> CreateUserResponse:
+def create_user(request: CreateUserRequest) -> CreateUserResponse:
     try:
-        return services.create_user(user)
+        return services.create_user(request)
     except Exception:
         raise EmailAlreadyExistsException(Messages.EMAIL_ALREADY_EXISTS_EXCEPTION)
 
@@ -28,6 +31,13 @@ def create_user(user: CreateUserRequest) -> CreateUserResponse:
 
 
 @router.post("/facilitator/create-new-course", response_model=CreateNewCourseResponse)
-def create_new_course(course: CreateNewCourseRequest) -> CreateNewCourseResponse:
+def create_new_course(request: CreateNewCourseRequest) -> CreateNewCourseResponse:
+    return services.create_new_course(request)
 
-    return services.create_new_course(course)
+
+@router.post("/enroll-student-in-course", response_model=EnrollStudentInCourseResponse)
+def enroll_student_in_a_course(request: EnrollStudentInCourseRequest) -> EnrollStudentInCourseResponse:
+    try:
+        return services.enroll_student_in_a_course(request)
+    except Exception:
+        raise InvalidCourseIdException(Messages.INVALID_COURSE_ID_EXCEPTION) or InvalidSt
