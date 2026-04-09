@@ -5,7 +5,7 @@ class EnrollStudentInCourseResponse(BaseModel):
     student_id: str
     course_id: str
     facilitator_id: str
-    message:str
+    message: str
     title: str
     description: str
     is_enrolled: bool
