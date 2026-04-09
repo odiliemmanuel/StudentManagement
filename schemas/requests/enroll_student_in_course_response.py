@@ -8,4 +8,4 @@ class EnrollStudentInCourseResponse(BaseModel):
     message: str
     title: str
     description: str
-    is_enrolled: bool
+    # is_enrolled: bool

@@ -27,7 +27,6 @@ class CourseRepository:
 
         if data:
             data["_id"] = str(data["_id"])
-            data["role"] = Role(data["role"])  # ✅ CRITICAL FIX
             return Course(**data)
 
         return None

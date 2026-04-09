@@ -4,6 +4,7 @@ from pymongo.errors import DuplicateKeyError
 from exceptions.courseRoleMismatchException import CourseRoleMismatchException
 from exceptions.email_already_exist_exception import EmailAlreadyExistsException
 from exceptions.invalid_course_id_exception import InvalidCourseIdException
+from exceptions.invalid_student_id_exception import InvalidStudentIdException
 from exceptions.messages import Messages
 from schemas.requests.create_new_course_request import CreateNewCourseRequest
 from schemas.requests.create_user_request import CreateUserRequest
@@ -29,15 +30,17 @@ def create_user(request: CreateUserRequest) -> CreateUserResponse:
 
 
 
-
 @router.post("/facilitator/create-new-course", response_model=CreateNewCourseResponse)
 def create_new_course(request: CreateNewCourseRequest) -> CreateNewCourseResponse:
     return services.create_new_course(request)
 
 
+
 @router.post("/enroll-student-in-course", response_model=EnrollStudentInCourseResponse)
 def enroll_student_in_a_course(request: EnrollStudentInCourseRequest) -> EnrollStudentInCourseResponse:
-    try:
         return services.enroll_student_in_a_course(request)
-    except Exception:
-        raise InvalidCourseIdException(Messages.INVALID_COURSE_ID_EXCEPTION) or InvalidSt
+
+
+@router.get("/student/view-course-title/{course_id}/{student_id}")
+def view_course_title(student_id, course_id):
+    return services.view_course_title(course_id, student_id)

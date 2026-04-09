@@ -58,7 +58,7 @@ class StudentManagementService:
         student = self.student_repository.find_by_id(request.student_id)
         course = self.course_repository.find_by_id(request.course_id)
 
-        if student.id == request.student_id and course.id == request.course_id:
+        if student.id == request.student_id and course.course_id == request.course_id:
             if student.role != Role.FACILITATOR:
                 return StudentManagementServiceMapper.map_enroll_student_in_course_response_to_user(course, student)
 
@@ -70,7 +70,23 @@ class StudentManagementService:
 
 
 
+    def view_course_title(self, course_id, student_id) -> str:
+        student = self.student_repository.find_by_id(student_id)
+        course = self.course_repository.find_by_id(course_id)
+        if course.course_id == course_id and student.role != Role.FACILITATOR and student.id == student_id:
+            return course.title
+        else:
+             raise InvalidCourseIdException(Messages.INVALID_COURSE_ID_EXCEPTION)
 
+
+
+    def view_course_description(self,student_id, course_id) -> str:
+        student = self.student_repository.find_by_id(student_id)
+        course = self.course_repository.find_by_id(course_id)
+        if course.course_id == course_id and student.role != Role.FACILITATOR and student.id == student_id:
+            return course.description
+        else:
+            raise InvalidCourseIdException(Messages.INVALID_COURSE_ID_EXCEPTION)
 
 
 

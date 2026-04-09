@@ -3,7 +3,6 @@ from models.role import Role
 from models.user import User
 from schemas.requests.create_new_course_request import CreateNewCourseRequest
 from schemas.requests.create_user_request import CreateUserRequest
-from schemas.requests.enroll_student_in_course_request import EnrollStudentInCourseRequest
 from schemas.requests.enroll_student_in_course_response import EnrollStudentInCourseResponse
 from schemas.responses.create_user_response import CreateUserResponse
 from schemas.responses.create_new_course_response import CreateNewCourseResponse
@@ -60,16 +59,11 @@ class StudentManagementServiceMapper:
             facilitator_id=course.facilitator_id
         )
 
-    student_id: str
-    course_id: str
-    facilitator_id: str
-    message: str
-    title: str
-    description: str
-    is_enrolled: bool
+
+
     @staticmethod
     def map_enroll_student_in_course_response_to_user(course: Course, student : User) -> EnrollStudentInCourseResponse:
-        student.is_enrolled = True
+        # student.is_enrolled = True
         return EnrollStudentInCourseResponse(
             student_id=student.id,
             course_id=course.course_id,
@@ -77,6 +71,8 @@ class StudentManagementServiceMapper:
             message="Enrollment successful",
             title=course.title,
             description=course.description,
-            is_enrolled=student.is_enrolled
+            # is_enrolled=student.is_enrolled
         )
+
+
 
