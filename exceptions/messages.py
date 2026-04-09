@@ -9,3 +9,4 @@ class Messages:
     INVALID_EMAIL_EXCEPTION = "Email address entered is not valid"
     EMAIL_ALREADY_EXISTS_EXCEPTION = "Email address already exists"
     INVALID_ID_ENTRY_EXCEPTION = "Cannot find id"
+    INVALID_ROLE_EXCEPTION = "Invalid role"

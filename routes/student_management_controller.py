@@ -2,6 +2,7 @@ from fastapi import APIRouter
 
 from exceptions.email_already_exist_exception import EmailAlreadyExistsException
 from exceptions.messages import Messages
+from models.user import User
 from schemas.requests.create_new_course_request import CreateNewCourseRequest
 from schemas.requests.create_user_request import CreateUserRequest
 from schemas.requests.enroll_student_in_course_request import EnrollStudentInCourseRequest
@@ -18,10 +19,7 @@ services = StudentManagementService()
 
 @router.post("/create-user", response_model=CreateUserResponse)
 def create_user(request: CreateUserRequest) -> CreateUserResponse:
-    try:
-        return services.create_user(request)
-    except Exception:
-        raise EmailAlreadyExistsException(Messages.EMAIL_ALREADY_EXISTS_EXCEPTION)
+    return services.create_user(request)
 
 
 
@@ -36,18 +34,23 @@ def enroll_student_in_a_course(request: EnrollStudentInCourseRequest) -> EnrollS
         return services.enroll_student_in_a_course(request)
 
 
+
 @router.get("/student/view-course-title/{student_id}/{course_id}")
-def view_course_title(student_id, course_id):
+def view_course_title(student_id, course_id) -> str:
     return services.view_course_title(student_id, course_id)
 
 
 
 @router.get("/student/view-course-description/{student_id}/{course_id}")
-def view_course_description(student_id, course_id):
+def view_course_description(student_id, course_id) -> str:
     return services.view_course_description(student_id, course_id)
 
 
 
 @router.get("/view_facilitator-for-course/{course_id}")
-def view_facilitator_for_course(course_id):
+def view_facilitator_for_course(course_id) -> User:
     return services.view_facilitator_for_course(course_id)
+
+@router.put("/update-user_name/{user_id/{name")
+def update_user_name(user_id: str, name: str):
+    return services.update_user_name(user_id, name)
