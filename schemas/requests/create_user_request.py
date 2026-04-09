@@ -1,9 +1,10 @@
-from pydantic import BaseModel
+
+from pydantic import BaseModel, EmailStr
 
 
 class CreateUserRequest(BaseModel):
     name: str
-    email_address: str
+    email: EmailStr
     age: int
     gender: str
     role: str
