@@ -11,5 +11,4 @@ class User(BaseModel):
     age: int
     gender: str
     role: Role
-    is_enrolled: bool
 

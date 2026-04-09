@@ -1,13 +1,9 @@
 from bson import ObjectId
 from pydantic import EmailStr
-from pymongo import MongoClient
-
 from models.role import Role
 from models.user import User
+from database import student_collections
 
-client = MongoClient("mongodb://localhost:27017")
-db = client["students"]
-student_collections = db["students"]
 
 
 class StudentRepository:
@@ -32,7 +28,7 @@ class StudentRepository:
 
 
         def find_by_email(self, email: EmailStr) -> User | None:
-            data = student_collections.find_one({"email_address": email})
+            data = student_collections.find_one({"email": email})
 
             if data:
                 data["_id"] = str(data["_id"])

@@ -1,12 +1,7 @@
 from bson import ObjectId
-from pymongo import MongoClient
-
 from models.course import Course
 from models.role import Role
-
-client = MongoClient("mongodb://localhost:27017")
-db = client["courses"]
-course_collections = db["courses"]
+from database import course_collections
 
 
 class CourseRepository:
