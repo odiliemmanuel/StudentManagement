@@ -3,6 +3,7 @@ from fastapi import HTTPException
 from exceptions.courseRoleMismatchException import CourseRoleMismatchException
 from exceptions.email_already_exist_exception import EmailAlreadyExistsException
 from exceptions.invalid_course_id_exception import InvalidCourseIdException
+from exceptions.invalid_id_entry_exception import InvalidIdEntryException
 from exceptions.invalid_student_id_exception import InvalidStudentIdException
 from exceptions.messages import Messages
 from mapper.student_management_service_mapper import StudentManagementServiceMapper
@@ -101,6 +102,10 @@ class StudentManagementService:
     def update_user_name(self, user_id, name):
         user = self.student_repository.find_by_id(user_id)
         if user.id != user_id:
-            raise
+            raise InvalidIdEntryException(Messages.INVALID_ID_ENTRY_EXCEPTION)
+
+        else:
+            user.name = name
+            self.student_repository.save(user)
 
 
