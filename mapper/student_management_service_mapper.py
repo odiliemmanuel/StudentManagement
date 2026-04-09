@@ -1,12 +1,10 @@
-import re
-
-from exceptions.invalid_email_exception import InvalidEmailException
-from exceptions.messages import Messages
+from models.course import Course
 from models.role import Role
 from models.user import User
 from schemas.requests.create_new_course_request import CreateNewCourseRequest
 from schemas.requests.create_user_request import CreateUserRequest
 from schemas.responses.create_user_response import CreateUserResponse
+from schemas.responses.create_new_course_response import CreateNewCourseResponse
 
 
 class StudentManagementServiceMapper:
@@ -36,7 +34,28 @@ class StudentManagementServiceMapper:
               role=Role(user.role)
           )
 
+    facilitator_id: str
+    title: str
+    description: str
 
     @staticmethod
     def map_create_new_course_request_to_course(create_new_course_request: CreateNewCourseRequest) -> Course:
-        return Course()
+        return Course(
+
+            facilitator_id=create_new_course_request.facilitator_id,
+            title=create_new_course_request.title,
+            description=create_new_course_request.description
+
+        )
+
+
+
+    @staticmethod
+    def map_course_to_create_new_course_response(course: Course) -> CreateNewCourseResponse:
+        return CreateNewCourseResponse(
+            course_id=course.course_id,
+            message="Course successfully created",
+            title=course.title,
+            description=course.description,
+            facilitator_id=course.facilitator_id
+        )

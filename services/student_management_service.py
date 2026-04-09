@@ -5,7 +5,9 @@ from exceptions.messages import Messages
 from mapper.student_management_service_mapper import StudentManagementServiceMapper
 from models.user import User
 from repositories.student_repository import StudentRepository
+from schemas.requests.create_new_course_request import CreateNewCourseRequest
 from schemas.requests.create_user_request import CreateUserRequest
+from schemas.responses.create_new_course_response import CreateNewCourseResponse
 from schemas.responses.create_user_response import CreateUserResponse
 
 
@@ -13,6 +15,8 @@ class StudentManagementService:
 
     def __init__(self):
         self.student_repository: StudentRepository = StudentRepository()
+
+
 
 
     def create_user(self, request: CreateUserRequest) -> CreateUserResponse:
@@ -25,6 +29,9 @@ class StudentManagementService:
         return StudentManagementServiceMapper.map_user_to_create_user_response(user)
 
 
+
+    def create_new_course(self, request : CreateNewCourseRequest) -> CreateNewCourseResponse:
+        user ; User = self.find_b
 
 
 

@@ -28,8 +28,20 @@ class StudentRepository:
             return user
 
 
-        def find_by_email(self, email: EmailStr) -> User:
+
+        def find_by_email(self, email: EmailStr) -> User | None:
             data = student_collections.find_one({"email_address": email})
+
+            if data:
+                data["_id"] = str(data["_id"])
+                return User(**data)
+
+            return None
+
+
+
+        def find_by_id(self, user_id: str):
+            data = student_collections.find_one({"_id": ObjectId(user_id)})
 
             if data:
                 data["_id"] = str(data["_id"])
