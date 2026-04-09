@@ -3,7 +3,7 @@ from models.role import Role
 from models.user import User
 from schemas.requests.create_new_course_request import CreateNewCourseRequest
 from schemas.requests.create_user_request import CreateUserRequest
-from schemas.requests.enroll_student_in_course_response import EnrollStudentInCourseResponse
+from schemas.responses.enroll_student_in_course_response import EnrollStudentInCourseResponse
 from schemas.responses.create_user_response import CreateUserResponse
 from schemas.responses.create_new_course_response import CreateNewCourseResponse
 

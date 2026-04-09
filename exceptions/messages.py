@@ -8,3 +8,4 @@ class Messages:
     INVALID_STUDENT_ID_EXCEPTION = "Student with given id does not exist"
     INVALID_EMAIL_EXCEPTION = "Email address entered is not valid"
     EMAIL_ALREADY_EXISTS_EXCEPTION = "Email address already exists"
+    INVALID_ID_ENTRY_EXCEPTION = "Cannot find id"

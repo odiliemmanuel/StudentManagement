@@ -14,7 +14,7 @@ from repositories.student_repository import StudentRepository
 from schemas.requests.create_new_course_request import CreateNewCourseRequest
 from schemas.requests.create_user_request import CreateUserRequest
 from schemas.requests.enroll_student_in_course_request import EnrollStudentInCourseRequest
-from schemas.requests.enroll_student_in_course_response import EnrollStudentInCourseResponse
+from schemas.responses.enroll_student_in_course_response import EnrollStudentInCourseResponse
 from schemas.responses.create_new_course_response import CreateNewCourseResponse
 from schemas.responses.create_user_response import CreateUserResponse
 
@@ -70,7 +70,7 @@ class StudentManagementService:
 
 
 
-    def view_course_title(self, course_id, student_id) -> str:
+    def view_course_title(self, student_id, course_id) -> str:
         student = self.student_repository.find_by_id(student_id)
         course = self.course_repository.find_by_id(course_id)
         if course.course_id == course_id and student.role != Role.FACILITATOR and student.id == student_id:
@@ -91,11 +91,16 @@ class StudentManagementService:
 
 
 
+    def view_facilitator_for_course(self ,course_id) -> User:
+        course = self.course_repository.find_by_id(course_id)
+        facilitator = self.student_repository.find_by_id(course.facilitator_id)
+        return facilitator
 
 
 
-
-
-
+    def update_user_name(self, user_id, name):
+        user = self.student_repository.find_by_id(user_id)
+        if user.id != user_id:
+            raise
 
 
